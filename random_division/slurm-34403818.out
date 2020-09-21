@@ -1,0 +1,281 @@
+mkdir: cannot create directory '/global/cscratch1/sd/huikong/Obiwan/dr9m/obiwan_out/dr9m_test/divided_randoms/': File exists
+srun: Warning: can't run 1 processes on 10 nodes, setting nnodes to 1
+srun: Warning: can't run 1 processes on 10 nodes, setting nnodes to 1
+srun: Warning: can't run 1 processes on 10 nodes, setting nnodes to 1
+srun: Warning: can't run 1 processes on 10 nodes, setting nnodes to 1
+srun: Warning: can't run 1 processes on 10 nodes, setting nnodes to 1
+srun: Warning: can't run 1 processes on 10 nodes, setting nnodes to 1
+srun: Warning: can't run 1 processes on 10 nodes, setting nnodes to 1
+5
+Traceback (most recent call last):
+  File "GetBricksSrc.py", line 18, in <module>
+    surveybricks = fits.getdata(os.environ['obiwan_data']+'/survey-bricks.fits.gz')
+  File "/global/common/cori_cle7/software/python/3.7-anaconda-2019.10/lib/python3.7/site-packages/astropy/io/fits/convenience.py", line 189, in getdata
+    hdulist, extidx = _getext(filename, mode, *args, **kwargs)
+  File "/global/common/cori_cle7/software/python/3.7-anaconda-2019.10/lib/python3.7/site-packages/astropy/io/fits/convenience.py", line 1033, in _getext
+    hdulist = fitsopen(filename, mode=mode, **kwargs)
+  File "/global/common/cori_cle7/software/python/3.7-anaconda-2019.10/lib/python3.7/site-packages/astropy/io/fits/hdu/hdulist.py", line 151, in fitsopen
+    lazy_load_hdus, **kwargs)
+  File "/global/common/cori_cle7/software/python/3.7-anaconda-2019.10/lib/python3.7/site-packages/astropy/io/fits/hdu/hdulist.py", line 390, in fromfile
+    lazy_load_hdus=lazy_load_hdus, **kwargs)
+  File "/global/common/cori_cle7/software/python/3.7-anaconda-2019.10/lib/python3.7/site-packages/astropy/io/fits/hdu/hdulist.py", line 1039, in _readfrom
+    fileobj = _File(fileobj, mode=mode, memmap=memmap, cache=cache)
+  File "/global/common/cori_cle7/software/python/3.7-anaconda-2019.10/lib/python3.7/site-packages/astropy/utils/decorators.py", line 521, in wrapper
+    return function(*args, **kwargs)
+  File "/global/common/cori_cle7/software/python/3.7-anaconda-2019.10/lib/python3.7/site-packages/astropy/io/fits/file.py", line 178, in __init__
+    self._open_filename(fileobj, mode, overwrite)
+  File "/global/common/cori_cle7/software/python/3.7-anaconda-2019.10/lib/python3.7/site-packages/astropy/io/fits/file.py", line 554, in _open_filename
+    if not self._try_read_compressed(self.name, magic, mode, ext=ext):
+  File "/global/common/cori_cle7/software/python/3.7-anaconda-2019.10/lib/python3.7/site-packages/astropy/io/fits/file.py", line 452, in _try_read_compressed
+    self._file = gzip.GzipFile(**kwargs)
+  File "/global/common/cori_cle7/software/python/3.7-anaconda-2019.10/lib/python3.7/gzip.py", line 163, in __init__
+    fileobj = self.myfileobj = builtins.open(filename, mode or 'rb')
+FileNotFoundError: [Errno 2] No such file or directory: '/global/cscratch1/sd/huikong/obiwan_Aug/repos_for_docker/obiwan_data/survey-bricks.fits.gz'
+srun: Warning: can't run 1 processes on 10 nodes, setting nnodes to 1
+srun: error: nid00753: task 0: Exited with exit code 1
+srun: Terminating job step 34403818.0
+srun: Warning: can't run 1 processes on 10 nodes, setting nnodes to 1
+srun: Warning: can't run 1 processes on 10 nodes, setting nnodes to 1
+8
+Traceback (most recent call last):
+  File "GetBricksSrc.py", line 18, in <module>
+    surveybricks = fits.getdata(os.environ['obiwan_data']+'/survey-bricks.fits.gz')
+  File "/global/common/cori_cle7/software/python/3.7-anaconda-2019.10/lib/python3.7/site-packages/astropy/io/fits/convenience.py", line 189, in getdata
+    hdulist, extidx = _getext(filename, mode, *args, **kwargs)
+  File "/global/common/cori_cle7/software/python/3.7-anaconda-2019.10/lib/python3.7/site-packages/astropy/io/fits/convenience.py", line 1033, in _getext
+    hdulist = fitsopen(filename, mode=mode, **kwargs)
+  File "/global/common/cori_cle7/software/python/3.7-anaconda-2019.10/lib/python3.7/site-packages/astropy/io/fits/hdu/hdulist.py", line 151, in fitsopen
+    lazy_load_hdus, **kwargs)
+  File "/global/common/cori_cle7/software/python/3.7-anaconda-2019.10/lib/python3.7/site-packages/astropy/io/fits/hdu/hdulist.py", line 390, in fromfile
+    lazy_load_hdus=lazy_load_hdus, **kwargs)
+  File "/global/common/cori_cle7/software/python/3.7-anaconda-2019.10/lib/python3.7/site-packages/astropy/io/fits/hdu/hdulist.py", line 1039, in _readfrom
+    fileobj = _File(fileobj, mode=mode, memmap=memmap, cache=cache)
+  File "/global/common/cori_cle7/software/python/3.7-anaconda-2019.10/lib/python3.7/site-packages/astropy/utils/decorators.py", line 521, in wrapper
+    return function(*args, **kwargs)
+  File "/global/common/cori_cle7/software/python/3.7-anaconda-2019.10/lib/python3.7/site-packages/astropy/io/fits/file.py", line 178, in __init__
+    self._open_filename(fileobj, mode, overwrite)
+  File "/global/common/cori_cle7/software/python/3.7-anaconda-2019.10/lib/python3.7/site-packages/astropy/io/fits/file.py", line 554, in _open_filename
+    if not self._try_read_compressed(self.name, magic, mode, ext=ext):
+  File "/global/common/cori_cle7/software/python/3.7-anaconda-2019.10/lib/python3.7/site-packages/astropy/io/fits/file.py", line 452, in _try_read_compressed
+    self._file = gzip.GzipFile(**kwargs)
+  File "/global/common/cori_cle7/software/python/3.7-anaconda-2019.10/lib/python3.7/gzip.py", line 163, in __init__
+    fileobj = self.myfileobj = builtins.open(filename, mode or 'rb')
+FileNotFoundError: [Errno 2] No such file or directory: '/global/cscratch1/sd/huikong/obiwan_Aug/repos_for_docker/obiwan_data/survey-bricks.fits.gz'
+srun: error: nid00765: task 0: Exited with exit code 1
+srun: Terminating job step 34403818.1
+2
+Traceback (most recent call last):
+  File "GetBricksSrc.py", line 18, in <module>
+    surveybricks = fits.getdata(os.environ['obiwan_data']+'/survey-bricks.fits.gz')
+  File "/global/common/cori_cle7/software/python/3.7-anaconda-2019.10/lib/python3.7/site-packages/astropy/io/fits/convenience.py", line 189, in getdata
+    hdulist, extidx = _getext(filename, mode, *args, **kwargs)
+  File "/global/common/cori_cle7/software/python/3.7-anaconda-2019.10/lib/python3.7/site-packages/astropy/io/fits/convenience.py", line 1033, in _getext
+    hdulist = fitsopen(filename, mode=mode, **kwargs)
+  File "/global/common/cori_cle7/software/python/3.7-anaconda-2019.10/lib/python3.7/site-packages/astropy/io/fits/hdu/hdulist.py", line 151, in fitsopen
+    lazy_load_hdus, **kwargs)
+  File "/global/common/cori_cle7/software/python/3.7-anaconda-2019.10/lib/python3.7/site-packages/astropy/io/fits/hdu/hdulist.py", line 390, in fromfile
+    lazy_load_hdus=lazy_load_hdus, **kwargs)
+  File "/global/common/cori_cle7/software/python/3.7-anaconda-2019.10/lib/python3.7/site-packages/astropy/io/fits/hdu/hdulist.py", line 1039, in _readfrom
+    fileobj = _File(fileobj, mode=mode, memmap=memmap, cache=cache)
+  File "/global/common/cori_cle7/software/python/3.7-anaconda-2019.10/lib/python3.7/site-packages/astropy/utils/decorators.py", line 521, in wrapper
+    return function(*args, **kwargs)
+  File "/global/common/cori_cle7/software/python/3.7-anaconda-2019.10/lib/python3.7/site-packages/astropy/io/fits/file.py", line 178, in __init__
+    self._open_filename(fileobj, mode, overwrite)
+  File "/global/common/cori_cle7/software/python/3.7-anaconda-2019.10/lib/python3.7/site-packages/astropy/io/fits/file.py", line 554, in _open_filename
+    if not self._try_read_compressed(self.name, magic, mode, ext=ext):
+  File "/global/common/cori_cle7/software/python/3.7-anaconda-2019.10/lib/python3.7/site-packages/astropy/io/fits/file.py", line 452, in _try_read_compressed
+    self._file = gzip.GzipFile(**kwargs)
+  File "/global/common/cori_cle7/software/python/3.7-anaconda-2019.10/lib/python3.7/gzip.py", line 163, in __init__
+    fileobj = self.myfileobj = builtins.open(filename, mode or 'rb')
+FileNotFoundError: [Errno 2] No such file or directory: '/global/cscratch1/sd/huikong/obiwan_Aug/repos_for_docker/obiwan_data/survey-bricks.fits.gz'
+srun: error: nid02160: task 0: Exited with exit code 1
+srun: Terminating job step 34403818.4
+7
+0
+Traceback (most recent call last):
+  File "GetBricksSrc.py", line 18, in <module>
+    surveybricks = fits.getdata(os.environ['obiwan_data']+'/survey-bricks.fits.gz')
+  File "/global/common/cori_cle7/software/python/3.7-anaconda-2019.10/lib/python3.7/site-packages/astropy/io/fits/convenience.py", line 189, in getdata
+    hdulist, extidx = _getext(filename, mode, *args, **kwargs)
+  File "/global/common/cori_cle7/software/python/3.7-anaconda-2019.10/lib/python3.7/site-packages/astropy/io/fits/convenience.py", line 1033, in _getext
+    hdulist = fitsopen(filename, mode=mode, **kwargs)
+  File "/global/common/cori_cle7/software/python/3.7-anaconda-2019.10/lib/python3.7/site-packages/astropy/io/fits/hdu/hdulist.py", line 151, in fitsopen
+    lazy_load_hdus, **kwargs)
+  File "/global/common/cori_cle7/software/python/3.7-anaconda-2019.10/lib/python3.7/site-packages/astropy/io/fits/hdu/hdulist.py", line 390, in fromfile
+    lazy_load_hdus=lazy_load_hdus, **kwargs)
+  File "/global/common/cori_cle7/software/python/3.7-anaconda-2019.10/lib/python3.7/site-packages/astropy/io/fits/hdu/hdulist.py", line 1039, in _readfrom
+    fileobj = _File(fileobj, mode=mode, memmap=memmap, cache=cache)
+  File "/global/common/cori_cle7/software/python/3.7-anaconda-2019.10/lib/python3.7/site-packages/astropy/utils/decorators.py", line 521, in wrapper
+    return function(*args, **kwargs)
+  File "/global/common/cori_cle7/software/python/3.7-anaconda-2019.10/lib/python3.7/site-packages/astropy/io/fits/file.py", line 178, in __init__
+    self._open_filename(fileobj, mode, overwrite)
+  File "/global/common/cori_cle7/software/python/3.7-anaconda-2019.10/lib/python3.7/site-packages/astropy/io/fits/file.py", line 554, in _open_filename
+    if not self._try_read_compressed(self.name, magic, mode, ext=ext):
+  File "/global/common/cori_cle7/software/python/3.7-anaconda-2019.10/lib/python3.7/site-packages/astropy/io/fits/file.py", line 452, in _try_read_compressed
+    self._file = gzip.GzipFile(**kwargs)
+  File "/global/common/cori_cle7/software/python/3.7-anaconda-2019.10/lib/python3.7/gzip.py", line 163, in __init__
+    fileobj = self.myfileobj = builtins.open(filename, mode or 'rb')
+FileNotFoundError: [Errno 2] No such file or directory: '/global/cscratch1/sd/huikong/obiwan_Aug/repos_for_docker/obiwan_data/survey-bricks.fits.gz'
+Traceback (most recent call last):
+  File "GetBricksSrc.py", line 18, in <module>
+    surveybricks = fits.getdata(os.environ['obiwan_data']+'/survey-bricks.fits.gz')
+  File "/global/common/cori_cle7/software/python/3.7-anaconda-2019.10/lib/python3.7/site-packages/astropy/io/fits/convenience.py", line 189, in getdata
+    hdulist, extidx = _getext(filename, mode, *args, **kwargs)
+  File "/global/common/cori_cle7/software/python/3.7-anaconda-2019.10/lib/python3.7/site-packages/astropy/io/fits/convenience.py", line 1033, in _getext
+    hdulist = fitsopen(filename, mode=mode, **kwargs)
+  File "/global/common/cori_cle7/software/python/3.7-anaconda-2019.10/lib/python3.7/site-packages/astropy/io/fits/hdu/hdulist.py", line 151, in fitsopen
+    lazy_load_hdus, **kwargs)
+  File "/global/common/cori_cle7/software/python/3.7-anaconda-2019.10/lib/python3.7/site-packages/astropy/io/fits/hdu/hdulist.py", line 390, in fromfile
+    lazy_load_hdus=lazy_load_hdus, **kwargs)
+  File "/global/common/cori_cle7/software/python/3.7-anaconda-2019.10/lib/python3.7/site-packages/astropy/io/fits/hdu/hdulist.py", line 1039, in _readfrom
+    fileobj = _File(fileobj, mode=mode, memmap=memmap, cache=cache)
+  File "/global/common/cori_cle7/software/python/3.7-anaconda-2019.10/lib/python3.7/site-packages/astropy/utils/decorators.py", line 521, in wrapper
+    return function(*args, **kwargs)
+  File "/global/common/cori_cle7/software/python/3.7-anaconda-2019.10/lib/python3.7/site-packages/astropy/io/fits/file.py", line 178, in __init__
+    self._open_filename(fileobj, mode, overwrite)
+  File "/global/common/cori_cle7/software/python/3.7-anaconda-2019.10/lib/python3.7/site-packages/astropy/io/fits/file.py", line 554, in _open_filename
+    if not self._try_read_compressed(self.name, magic, mode, ext=ext):
+  File "/global/common/cori_cle7/software/python/3.7-anaconda-2019.10/lib/python3.7/site-packages/astropy/io/fits/file.py", line 452, in _try_read_compressed
+    self._file = gzip.GzipFile(**kwargs)
+  File "/global/common/cori_cle7/software/python/3.7-anaconda-2019.10/lib/python3.7/gzip.py", line 163, in __init__
+    fileobj = self.myfileobj = builtins.open(filename, mode or 'rb')
+FileNotFoundError: [Errno 2] No such file or directory: '/global/cscratch1/sd/huikong/obiwan_Aug/repos_for_docker/obiwan_data/survey-bricks.fits.gz'
+srun: error: nid00792: task 0: Exited with exit code 1
+srun: Terminating job step 34403818.2
+srun: error: nid01151: task 0: Exited with exit code 1
+srun: Terminating job step 34403818.3
+6
+Traceback (most recent call last):
+  File "GetBricksSrc.py", line 18, in <module>
+    surveybricks = fits.getdata(os.environ['obiwan_data']+'/survey-bricks.fits.gz')
+  File "/global/common/cori_cle7/software/python/3.7-anaconda-2019.10/lib/python3.7/site-packages/astropy/io/fits/convenience.py", line 189, in getdata
+    hdulist, extidx = _getext(filename, mode, *args, **kwargs)
+  File "/global/common/cori_cle7/software/python/3.7-anaconda-2019.10/lib/python3.7/site-packages/astropy/io/fits/convenience.py", line 1033, in _getext
+    hdulist = fitsopen(filename, mode=mode, **kwargs)
+  File "/global/common/cori_cle7/software/python/3.7-anaconda-2019.10/lib/python3.7/site-packages/astropy/io/fits/hdu/hdulist.py", line 151, in fitsopen
+    lazy_load_hdus, **kwargs)
+  File "/global/common/cori_cle7/software/python/3.7-anaconda-2019.10/lib/python3.7/site-packages/astropy/io/fits/hdu/hdulist.py", line 390, in fromfile
+    lazy_load_hdus=lazy_load_hdus, **kwargs)
+  File "/global/common/cori_cle7/software/python/3.7-anaconda-2019.10/lib/python3.7/site-packages/astropy/io/fits/hdu/hdulist.py", line 1039, in _readfrom
+    fileobj = _File(fileobj, mode=mode, memmap=memmap, cache=cache)
+  File "/global/common/cori_cle7/software/python/3.7-anaconda-2019.10/lib/python3.7/site-packages/astropy/utils/decorators.py", line 521, in wrapper
+    return function(*args, **kwargs)
+  File "/global/common/cori_cle7/software/python/3.7-anaconda-2019.10/lib/python3.7/site-packages/astropy/io/fits/file.py", line 178, in __init__
+    self._open_filename(fileobj, mode, overwrite)
+  File "/global/common/cori_cle7/software/python/3.7-anaconda-2019.10/lib/python3.7/site-packages/astropy/io/fits/file.py", line 554, in _open_filename
+    if not self._try_read_compressed(self.name, magic, mode, ext=ext):
+  File "/global/common/cori_cle7/software/python/3.7-anaconda-2019.10/lib/python3.7/site-packages/astropy/io/fits/file.py", line 452, in _try_read_compressed
+    self._file = gzip.GzipFile(**kwargs)
+  File "/global/common/cori_cle7/software/python/3.7-anaconda-2019.10/lib/python3.7/gzip.py", line 163, in __init__
+    fileobj = self.myfileobj = builtins.open(filename, mode or 'rb')
+FileNotFoundError: [Errno 2] No such file or directory: '/global/cscratch1/sd/huikong/obiwan_Aug/repos_for_docker/obiwan_data/survey-bricks.fits.gz'
+4
+9
+Traceback (most recent call last):
+  File "GetBricksSrc.py", line 18, in <module>
+    surveybricks = fits.getdata(os.environ['obiwan_data']+'/survey-bricks.fits.gz')
+  File "/global/common/cori_cle7/software/python/3.7-anaconda-2019.10/lib/python3.7/site-packages/astropy/io/fits/convenience.py", line 189, in getdata
+    hdulist, extidx = _getext(filename, mode, *args, **kwargs)
+  File "/global/common/cori_cle7/software/python/3.7-anaconda-2019.10/lib/python3.7/site-packages/astropy/io/fits/convenience.py", line 1033, in _getext
+    hdulist = fitsopen(filename, mode=mode, **kwargs)
+  File "/global/common/cori_cle7/software/python/3.7-anaconda-2019.10/lib/python3.7/site-packages/astropy/io/fits/hdu/hdulist.py", line 151, in fitsopen
+    lazy_load_hdus, **kwargs)
+  File "/global/common/cori_cle7/software/python/3.7-anaconda-2019.10/lib/python3.7/site-packages/astropy/io/fits/hdu/hdulist.py", line 390, in fromfile
+    lazy_load_hdus=lazy_load_hdus, **kwargs)
+  File "/global/common/cori_cle7/software/python/3.7-anaconda-2019.10/lib/python3.7/site-packages/astropy/io/fits/hdu/hdulist.py", line 1039, in _readfrom
+    fileobj = _File(fileobj, mode=mode, memmap=memmap, cache=cache)
+  File "/global/common/cori_cle7/software/python/3.7-anaconda-2019.10/lib/python3.7/site-packages/astropy/utils/decorators.py", line 521, in wrapper
+    return function(*args, **kwargs)
+  File "/global/common/cori_cle7/software/python/3.7-anaconda-2019.10/lib/python3.7/site-packages/astropy/io/fits/file.py", line 178, in __init__
+    self._open_filename(fileobj, mode, overwrite)
+  File "/global/common/cori_cle7/software/python/3.7-anaconda-2019.10/lib/python3.7/site-packages/astropy/io/fits/file.py", line 554, in _open_filename
+    if not self._try_read_compressed(self.name, magic, mode, ext=ext):
+  File "/global/common/cori_cle7/software/python/3.7-anaconda-2019.10/lib/python3.7/site-packages/astropy/io/fits/file.py", line 452, in _try_read_compressed
+    self._file = gzip.GzipFile(**kwargs)
+  File "/global/common/cori_cle7/software/python/3.7-anaconda-2019.10/lib/python3.7/gzip.py", line 163, in __init__
+    fileobj = self.myfileobj = builtins.open(filename, mode or 'rb')
+FileNotFoundError: [Errno 2] No such file or directory: '/global/cscratch1/sd/huikong/obiwan_Aug/repos_for_docker/obiwan_data/survey-bricks.fits.gz'
+Traceback (most recent call last):
+  File "GetBricksSrc.py", line 18, in <module>
+    surveybricks = fits.getdata(os.environ['obiwan_data']+'/survey-bricks.fits.gz')
+  File "/global/common/cori_cle7/software/python/3.7-anaconda-2019.10/lib/python3.7/site-packages/astropy/io/fits/convenience.py", line 189, in getdata
+    hdulist, extidx = _getext(filename, mode, *args, **kwargs)
+  File "/global/common/cori_cle7/software/python/3.7-anaconda-2019.10/lib/python3.7/site-packages/astropy/io/fits/convenience.py", line 1033, in _getext
+    hdulist = fitsopen(filename, mode=mode, **kwargs)
+  File "/global/common/cori_cle7/software/python/3.7-anaconda-2019.10/lib/python3.7/site-packages/astropy/io/fits/hdu/hdulist.py", line 151, in fitsopen
+    lazy_load_hdus, **kwargs)
+  File "/global/common/cori_cle7/software/python/3.7-anaconda-2019.10/lib/python3.7/site-packages/astropy/io/fits/hdu/hdulist.py", line 390, in fromfile
+    lazy_load_hdus=lazy_load_hdus, **kwargs)
+  File "/global/common/cori_cle7/software/python/3.7-anaconda-2019.10/lib/python3.7/site-packages/astropy/io/fits/hdu/hdulist.py", line 1039, in _readfrom
+    fileobj = _File(fileobj, mode=mode, memmap=memmap, cache=cache)
+  File "/global/common/cori_cle7/software/python/3.7-anaconda-2019.10/lib/python3.7/site-packages/astropy/utils/decorators.py", line 521, in wrapper
+    return function(*args, **kwargs)
+  File "/global/common/cori_cle7/software/python/3.7-anaconda-2019.10/lib/python3.7/site-packages/astropy/io/fits/file.py", line 178, in __init__
+    self._open_filename(fileobj, mode, overwrite)
+  File "/global/common/cori_cle7/software/python/3.7-anaconda-2019.10/lib/python3.7/site-packages/astropy/io/fits/file.py", line 554, in _open_filename
+    if not self._try_read_compressed(self.name, magic, mode, ext=ext):
+  File "/global/common/cori_cle7/software/python/3.7-anaconda-2019.10/lib/python3.7/site-packages/astropy/io/fits/file.py", line 452, in _try_read_compressed
+    self._file = gzip.GzipFile(**kwargs)
+  File "/global/common/cori_cle7/software/python/3.7-anaconda-2019.10/lib/python3.7/gzip.py", line 163, in __init__
+    fileobj = self.myfileobj = builtins.open(filename, mode or 'rb')
+FileNotFoundError: [Errno 2] No such file or directory: '/global/cscratch1/sd/huikong/obiwan_Aug/repos_for_docker/obiwan_data/survey-bricks.fits.gz'
+srun: error: nid12921: task 0: Exited with exit code 1
+srun: Terminating job step 34403818.8
+3
+1
+srun: error: nid12954: task 0: Exited with exit code 1
+srun: Terminating job step 34403818.9
+Traceback (most recent call last):
+  File "GetBricksSrc.py", line 18, in <module>
+    surveybricks = fits.getdata(os.environ['obiwan_data']+'/survey-bricks.fits.gz')
+  File "/global/common/cori_cle7/software/python/3.7-anaconda-2019.10/lib/python3.7/site-packages/astropy/io/fits/convenience.py", line 189, in getdata
+    hdulist, extidx = _getext(filename, mode, *args, **kwargs)
+  File "/global/common/cori_cle7/software/python/3.7-anaconda-2019.10/lib/python3.7/site-packages/astropy/io/fits/convenience.py", line 1033, in _getext
+    hdulist = fitsopen(filename, mode=mode, **kwargs)
+  File "/global/common/cori_cle7/software/python/3.7-anaconda-2019.10/lib/python3.7/site-packages/astropy/io/fits/hdu/hdulist.py", line 151, in fitsopen
+    lazy_load_hdus, **kwargs)
+  File "/global/common/cori_cle7/software/python/3.7-anaconda-2019.10/lib/python3.7/site-packages/astropy/io/fits/hdu/hdulist.py", line 390, in fromfile
+    lazy_load_hdus=lazy_load_hdus, **kwargs)
+  File "/global/common/cori_cle7/software/python/3.7-anaconda-2019.10/lib/python3.7/site-packages/astropy/io/fits/hdu/hdulist.py", line 1039, in _readfrom
+    fileobj = _File(fileobj, mode=mode, memmap=memmap, cache=cache)
+  File "/global/common/cori_cle7/software/python/3.7-anaconda-2019.10/lib/python3.7/site-packages/astropy/utils/decorators.py", line 521, in wrapper
+    return function(*args, **kwargs)
+  File "/global/common/cori_cle7/software/python/3.7-anaconda-2019.10/lib/python3.7/site-packages/astropy/io/fits/file.py", line 178, in __init__
+    self._open_filename(fileobj, mode, overwrite)
+  File "/global/common/cori_cle7/software/python/3.7-anaconda-2019.10/lib/python3.7/site-packages/astropy/io/fits/file.py", line 554, in _open_filename
+    if not self._try_read_compressed(self.name, magic, mode, ext=ext):
+  File "/global/common/cori_cle7/software/python/3.7-anaconda-2019.10/lib/python3.7/site-packages/astropy/io/fits/file.py", line 452, in _try_read_compressed
+    self._file = gzip.GzipFile(**kwargs)
+  File "/global/common/cori_cle7/software/python/3.7-anaconda-2019.10/lib/python3.7/gzip.py", line 163, in __init__
+    fileobj = self.myfileobj = builtins.open(filename, mode or 'rb')
+FileNotFoundError: [Errno 2] No such file or directory: '/global/cscratch1/sd/huikong/obiwan_Aug/repos_for_docker/obiwan_data/survey-bricks.fits.gz'
+Traceback (most recent call last):
+  File "GetBricksSrc.py", line 18, in <module>
+    surveybricks = fits.getdata(os.environ['obiwan_data']+'/survey-bricks.fits.gz')
+  File "/global/common/cori_cle7/software/python/3.7-anaconda-2019.10/lib/python3.7/site-packages/astropy/io/fits/convenience.py", line 189, in getdata
+    hdulist, extidx = _getext(filename, mode, *args, **kwargs)
+  File "/global/common/cori_cle7/software/python/3.7-anaconda-2019.10/lib/python3.7/site-packages/astropy/io/fits/convenience.py", line 1033, in _getext
+    hdulist = fitsopen(filename, mode=mode, **kwargs)
+  File "/global/common/cori_cle7/software/python/3.7-anaconda-2019.10/lib/python3.7/site-packages/astropy/io/fits/hdu/hdulist.py", line 151, in fitsopen
+    lazy_load_hdus, **kwargs)
+  File "/global/common/cori_cle7/software/python/3.7-anaconda-2019.10/lib/python3.7/site-packages/astropy/io/fits/hdu/hdulist.py", line 390, in fromfile
+    lazy_load_hdus=lazy_load_hdus, **kwargs)
+  File "/global/common/cori_cle7/software/python/3.7-anaconda-2019.10/lib/python3.7/site-packages/astropy/io/fits/hdu/hdulist.py", line 1039, in _readfrom
+    fileobj = _File(fileobj, mode=mode, memmap=memmap, cache=cache)
+  File "/global/common/cori_cle7/software/python/3.7-anaconda-2019.10/lib/python3.7/site-packages/astropy/utils/decorators.py", line 521, in wrapper
+    return function(*args, **kwargs)
+  File "/global/common/cori_cle7/software/python/3.7-anaconda-2019.10/lib/python3.7/site-packages/astropy/io/fits/file.py", line 178, in __init__
+    self._open_filename(fileobj, mode, overwrite)
+  File "/global/common/cori_cle7/software/python/3.7-anaconda-2019.10/lib/python3.7/site-packages/astropy/io/fits/file.py", line 554, in _open_filename
+    if not self._try_read_compressed(self.name, magic, mode, ext=ext):
+  File "/global/common/cori_cle7/software/python/3.7-anaconda-2019.10/lib/python3.7/site-packages/astropy/io/fits/file.py", line 452, in _try_read_compressed
+    self._file = gzip.GzipFile(**kwargs)
+  File "/global/common/cori_cle7/software/python/3.7-anaconda-2019.10/lib/python3.7/gzip.py", line 163, in __init__
+    fileobj = self.myfileobj = builtins.open(filename, mode or 'rb')
+FileNotFoundError: [Errno 2] No such file or directory: '/global/cscratch1/sd/huikong/obiwan_Aug/repos_for_docker/obiwan_data/survey-bricks.fits.gz'
+srun: error: nid12920: task 0: Exited with exit code 1
+srun: Terminating job step 34403818.7
+srun: error: nid02222: task 0: Exited with exit code 1
+srun: Terminating job step 34403818.6
+srun: error: nid00753: task 0: Exited with exit code 1
+srun: Terminating job step 34403818.5
