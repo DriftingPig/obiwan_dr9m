@@ -49,7 +49,7 @@ python brickstat.py --name_for_run test --rs rs0 --real_bricks_fn bricks_dr9f_so
 cd ../random_division
 
 
-# OPEN slurm_submit.sh, change 'export name_for_run=dr9m_test' to 'export name_for_run=test'
+#OPEN slurm_submit.sh, change 'export name_for_run=dr9m_test' to 'export name_for_run=test'
 
 #divide the randoms into each bricks for future process
 
