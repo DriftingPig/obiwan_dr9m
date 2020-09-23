@@ -1,4 +1,4 @@
-#e.g. python brickstat.py --name_for_run elg_like_run --rs more_rs0 --real_bricks_fn real_bricks_chunk21.txt
+#e.g. python brickstat.py --name_for_run dr9m_test --rs rs0 --real_bricks_fn bricks_dr9f_south.txt
 #SV_bricks.txt
 #/global/cscratch1/sd/huikong/Obiwan/dr8/obiwan_out/SV_south/output/tractor/
 import os
