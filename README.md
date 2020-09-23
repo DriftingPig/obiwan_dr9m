@@ -1,3 +1,4 @@
+test
 mkdir $CSCRATCH/Obiwan
 mkdir $CSCRATCH/Obiwan/obiwan_code
 git clone ....
