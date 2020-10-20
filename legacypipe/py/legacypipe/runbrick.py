@@ -1565,6 +1565,12 @@ def stage_coadds(survey=None, bands=None, version_header=None, targetwcs=None,
         T_sims_coadds = make_coadds(tims, bands, targetwcs, mods=sims_mods,
                 lanczos=lanczos, mp=mp,callback=write_coadd_images, callback_args=(survey, brickname, version_header, tims,
                     targetwcs,co_sky))
+        sims_coadd = T_sims_coadds.comods
+        del T_sims_coadds
+        for band in bands:
+            sim_coadd_fn= survey.find_file('model',brick=brickname, band=band,
+                     output=True)
+            os.rename(sim_coadd_fn,sim_coadd_fn.replace('-model-','-sims-'))
     # Write per-brick CCDs table
     primhdr = fitsio.FITSHDR()
     for r in version_header.records():
