@@ -31,6 +31,9 @@ tempdir = tempfile.gettempdir()
 # The apertures we use in aperture photometry, in ARCSEC radius
 apertures_arcsec = np.array([0.5, 0.75, 1., 1.5, 2., 3.5, 5., 7.])
 
+# WISE apertures, in ARCSEC radius
+wise_apertures_arcsec = np.array([3., 5., 7., 9., 11.])
+
 # Ugly hack: for sphinx documentation, the astrometry and tractor (and
 # other) packages are replaced by mock objects.  But you can't
 # subclass a mock object correctly, so we have to un-mock
@@ -39,11 +42,6 @@ if 'Mock' in str(type(EllipseWithPriors)):
     class duck(object):
         pass
     EllipseWithPriors = duck
-
-def year_to_mjd(year):
-    # year_to_mjd(2015.5) -> 57205.875
-    from tractor.tractortime import TAITime
-    return (year - 2000.) * TAITime.daysperyear + TAITime.mjd2k
 
 def mjd_to_year(mjd):
     # mjd_to_year(57205.875) -> 2015.5
@@ -225,6 +223,7 @@ class LegacySersicIndex(SersicIndex):
         super(LegacySersicIndex, self).__init__(val=val)
         self.lower = 0.5
         self.upper = 6.0
+        self.maxstep = 0.25
 
 class LogRadius(EllipseESoft):
     ''' Class used during fitting of the RexGalaxy type -- an ellipse
@@ -363,6 +362,7 @@ def get_version_header(program_name, survey_dir, release, git_version=None):
     Creates a fitsio header describing a DECaLS data product.
     '''
     import datetime
+    import socket
 
     if program_name is None:
         import sys
@@ -372,17 +372,13 @@ def get_version_header(program_name, survey_dir, release, git_version=None):
         git_version = get_git_version()
 
     hdr = fitsio.FITSHDR()
-    #lsdir_prefix1 = '/global/project/projectdirs'
-    #lsdir_prefix2 = '/global/projecta/projectdirs'
     for s in [
-        'Data product of the DESI Imaging Legacy Survey (DECaLS)',
+        'Data product of the DESI Imaging Legacy Surveys',
         'Full documentation at http://legacysurvey.org',
         ]:
         hdr.add_record(dict(name='COMMENT', value=s, comment=s))
     hdr.add_record(dict(name='LEGPIPEV', value=git_version,
                         comment='legacypipe git version'))
-    #hdr.add_record(dict(name='LSDIRPFX', value=lsdir_prefix1,
-    #                    comment='LegacySurveys Directory Prefix'))
     hdr.add_record(dict(name='LSDIR', value=survey_dir,
                         comment='$LEGACY_SURVEY_DIR directory'))
     hdr.add_record(dict(name='LSDR', value='DR9',
@@ -394,8 +390,6 @@ def get_version_header(program_name, survey_dir, release, git_version=None):
     # Requested by NOAO
     hdr.add_record(dict(name='SURVEYID', value='DECaLS BASS MzLS',
                         comment='Survey names'))
-    #hdr.add_record(dict(name='SURVEYID', value='DECam Legacy Survey (DECaLS)',
-    #hdr.add_record(dict(name='SURVEYID', value='BASS MzLS',
     hdr.add_record(dict(name='DRVERSIO', value=release,
                         comment='LegacySurveys Data Release number'))
     hdr.add_record(dict(name='OBSTYPE', value='object',
@@ -403,26 +397,23 @@ def get_version_header(program_name, survey_dir, release, git_version=None):
     hdr.add_record(dict(name='PROCTYPE', value='tile',
                         comment='Processing type'))
 
-    import socket
     hdr.add_record(dict(name='NODENAME', value=socket.gethostname(),
                         comment='Machine where script was run'))
-    #hdr.add_record(dict(name='HOSTFQDN', value=socket.getfqdn(),comment='Machine where script was run'))
     hdr.add_record(dict(name='HOSTNAME', value=os.environ.get('NERSC_HOST', 'none'),
                         comment='NERSC machine where script was run'))
     hdr.add_record(dict(name='JOB_ID', value=os.environ.get('SLURM_JOB_ID', 'none'),
                         comment='SLURM job id'))
     hdr.add_record(dict(name='ARRAY_ID', value=os.environ.get('ARRAY_TASK_ID', 'none'),
                         comment='SLURM job array id'))
-
     return hdr
 
-def get_dependency_versions(unwise_dir, unwise_tr_dir, unwise_modelsky_dir):
+def get_dependency_versions(unwise_dir, unwise_tr_dir, unwise_modelsky_dir, galex_dir):
     import astrometry
     import astropy
     import matplotlib
     try:
         import mkl_fft
-    except:
+    except ImportError:
         mkl_fft = None
     import photutils
     import tractor
@@ -446,7 +437,6 @@ def get_dependency_versions(unwise_dir, unwise_tr_dir, unwise_modelsky_dir):
         if pkg is None:
             depvers.append((name, 'none'))
             continue
-        #depvers.append((name + '-path', os.path.dirname(pkg.__file__)))
         try:
             depvers.append((name, pkg.__version__))
         except:
@@ -469,12 +459,15 @@ def get_dependency_versions(unwise_dir, unwise_tr_dir, unwise_modelsky_dir):
             depvers.append(('LARGEGALAXIES_VER', ver))
             depvers.append(('LARGEGALAXIES_PREBURN', preburn))
 
-    for dep in ['TYCHO2_KD', 'GAIA_CAT']:
+    for dep in ['TYCHO2_KD', 'GAIA_CAT', 'SKY_TEMPLATE']:
         value = os.environ.get('%s_DIR' % dep, default_ver)
         if value == default_ver:
             print('Warning: failed to get version string for "%s"' % dep)
         else:
             depvers.append((dep, value))
+
+    if galex_dir is not None:
+        depvers.append(('galex', galex_dir))
 
     if unwise_dir is not None:
         dirs = unwise_dir.split(':')
@@ -497,71 +490,6 @@ def get_dependency_versions(unwise_dir, unwise_tr_dir, unwise_modelsky_dir):
         headers.append(('DEPVER%02i' % i, value, ''))
     return headers
 
-class MyFITSHDR(fitsio.FITSHDR):
-    '''
-    This is copied straight from fitsio, simply removing "BUNIT" from
-    the list of headers to remove.  This is required to format the
-    tractor catalogs the way we want them.
-    '''
-    def clean(self, **kwargs):
-        """
-        Remove reserved keywords from the header.
-
-        These are keywords that the fits writer must write in order
-        to maintain consistency between header and data.
-        """
-
-        rmnames = ['SIMPLE','EXTEND','XTENSION','BITPIX','PCOUNT','GCOUNT',
-                   'THEAP',
-                   'EXTNAME',
-                   #'BUNIT',
-                   'BSCALE','BZERO','BLANK',
-                   'ZQUANTIZ','ZDITHER0','ZIMAGE','ZCMPTYPE',
-                   'ZSIMPLE','ZTENSION','ZPCOUNT','ZGCOUNT',
-                   'ZBITPIX','ZEXTEND',
-                   #'FZTILELN','FZALGOR',
-                   'CHECKSUM','DATASUM']
-        self.delete(rmnames)
-
-        r = self._record_map.get('NAXIS',None)
-        if r is not None:
-            naxis = int(r['value'])
-            self.delete('NAXIS')
-
-            rmnames = ['NAXIS%d' % i for i in xrange(1,naxis+1)]
-            self.delete(rmnames)
-
-        r = self._record_map.get('ZNAXIS',None)
-        self.delete('ZNAXIS')
-        if r is not None:
-
-            znaxis = int(r['value'])
-
-            rmnames = ['ZNAXIS%d' % i for i in xrange(1,znaxis+1)]
-            self.delete(rmnames)
-            rmnames = ['ZTILE%d' % i for i in xrange(1,znaxis+1)]
-            self.delete(rmnames)
-            rmnames = ['ZNAME%d' % i for i in xrange(1,znaxis+1)]
-            self.delete(rmnames)
-            rmnames = ['ZVAL%d' % i for i in xrange(1,znaxis+1)]
-            self.delete(rmnames)
-
-        r = self._record_map.get('TFIELDS',None)
-        if r is not None:
-            tfields = int(r['value'])
-            self.delete('TFIELDS')
-
-            if tfields > 0:
-
-                nbase = ['TFORM','TTYPE','TDIM','TUNIT','TSCAL','TZERO',
-                         'TNULL','TDISP','TDMIN','TDMAX','TDESC','TROTA',
-                         'TRPIX','TRVAL','TDELT','TCUNI',
-                         #'FZALG'
-                        ]
-                for i in xrange(1,tfields+1):
-                    names=['%s%d' % (n,i) for n in nbase]
-                    self.delete(names)
-
 def tim_get_resamp(tim, targetwcs):
     from astrometry.util.resample import resample_with_wcs,OverlapError
 
@@ -570,7 +498,7 @@ def tim_get_resamp(tim, targetwcs):
     try:
         Yo,Xo,Yi,Xi,_ = resample_with_wcs(targetwcs, tim.subwcs, intType=np.int16)
     except OverlapError:
-        print('No overlap')
+        debug('No overlap between tim', tim.name, 'and target WCS')
         return None
     if len(Yo) == 0:
         return None
@@ -743,7 +671,7 @@ def ccds_touching_wcs(targetwcs, ccds, ccdrad=None, polygons=True):
         poly = []
         for x,y in [(0.5,0.5),(W+0.5,0.5),(W+0.5,H+0.5),(0.5,H+0.5)]:
             rr,dd = wcs.pixelxy2radec(x,y)
-            ok,xx,yy = targetwcs.radec2pixelxy(rr,dd)
+            _,xx,yy = targetwcs.radec2pixelxy(rr,dd)
             poly.append((xx,yy))
         if wdet > 0:
             poly = list(reversed(poly))
@@ -767,13 +695,13 @@ def imsave_jpeg(jpegfn, img, **kwargs):
     *jpegfn*: JPEG filename
     *img*: image, in the typical matplotlib formats (see plt.imsave)
     '''
-    import pylab as plt
+    from matplotlib.pyplot import imsave
     if True:
         kwargs.update(format='jpg')
-        plt.imsave(jpegfn, img, **kwargs)
+        imsave(jpegfn, img, **kwargs)
     else:
         tmpfn = create_temp(suffix='.png')
-        plt.imsave(tmpfn, img, **kwargs)
+        imsave(tmpfn, img, **kwargs)
         cmd = ('pngtopnm %s | pnmtojpeg -quality 90 > %s' % (tmpfn, jpegfn))
         rtn = os.system(cmd)
         print(cmd, '->', rtn)
@@ -882,37 +810,6 @@ class LegacySurveyData(object):
         from legacypipe.detection import sed_matched_filters
         return sed_matched_filters(bands)
 
-    def index_of_band(self, b):
-        return self.allbands.index(b)
-
-    def read_intermediate_catalog(self, brick, **kwargs):
-        '''
-        Reads the intermediate tractor catalog for the given brickname.
-
-        *kwargs*: passed to self.find_file()
-
-        Returns (T, hdr, primhdr)
-        '''
-        fn = self.find_file('tractor-intermediate', brick=brick, **kwargs)
-        T = fits_table(fn)
-        hdr = T.get_header()
-        primhdr = fitsio.read_header(fn)
-
-        in_flux_prefix = ''
-        # Ensure flux arrays are 2d (N x 1)
-        keys = ['flux', 'flux_ivar', 'rchi2', 'fracflux', 'fracmasked',
-                'fracin', 'nobs', 'anymask', 'allmask', 'psfsize', 'depth',
-                'galdepth']
-        for k in keys:
-            incol = '%s%s' % (in_flux_prefix, k)
-            X = T.get(incol)
-            # Hmm, if we need to reshape one of these arrays, we will
-            # need to do all of them.
-            if len(X.shape) == 1:
-                X = X[:, np.newaxis]
-                T.set(incol, X)
-        return T, hdr, primhdr
-
     def find_file(self, filetype, brick=None, brickpre=None, band='%(band)s',
                   camera=None, expnum=None, ccdname=None,
                   output=False, **kwargs):
@@ -981,17 +878,11 @@ class LegacySurveyData(object):
 
         elif filetype == 'large-galaxies':
             fn = os.environ.get('LARGEGALAXIES_CAT')
-            if fn is not None:
-                if os.path.isfile(fn):
-                    return fn
-            pat = os.path.join(basedir, 'LSLGA-*.kd.fits')
-            fns = glob(pat)
-            if len(fns) == 0:
+            if fn is None:
                 return None
-            if len(fns) > 2:
-                print('More than one filename matched large-galaxy pattern', pat,
-                      '; using the first one,', fns[0])
-            return fns[0]
+            if os.path.isfile(fn):
+                return fn
+            return None
 
         elif filetype == 'annotated-ccds':
             return swaplist(
@@ -1017,7 +908,9 @@ class LegacySurveyData(object):
         elif filetype in ['image-jpeg', 'model-jpeg', 'resid-jpeg',
                           'blobmodel-jpeg',
                           'imageblob-jpeg', 'simscoadd-jpeg','imagecoadd-jpeg',
-                          'wise-jpeg', 'wisemodel-jpeg']:
+                          'wise-jpeg', 'wisemodel-jpeg',
+                          'galex-jpeg', 'galexmodel-jpeg',
+                          ]:
             ty = filetype.split('-')[0]
             return swap(
                 os.path.join(codir, '%s-%s-%s.jpg' % (sname, brick, ty)))
@@ -1078,7 +971,7 @@ class LegacySurveyData(object):
             model = '[compress R %(tilew)i,%(tileh)i; qz -1e-4]',
             chi2  = '[compress R %(tilew)i,%(tileh)i; qz -0.1]',
             # qz +8: 9 MB, qz +16: 10.5 MB
-            invvar = '[compress R %(tilew)i,%(tileh)i; qz 16]',
+            invvar = '[compress R %(tilew)i,%(tileh)i; q0 16]',
             nexp   = '[compress H %(tilew)i,%(tileh)i]',
             maskbits = '[compress H %(tilew)i,%(tileh)i]',
             depth  = '[compress G %(tilew)i,%(tileh)i; qz 0]',
@@ -1110,7 +1003,7 @@ class LegacySurveyData(object):
                 tileh += 1
         return pat % dict(tilew=tilew,tileh=tileh)
 
-    def write_output(self, filetype, hashsum=True, **kwargs):
+    def write_output(self, filetype, hashsum=True, filename=None, **kwargs):
         '''
         Returns a context manager for writing an output file.
 
@@ -1125,7 +1018,7 @@ class LegacySurveyData(object):
         the real disk file.  The 'out.fn' member variable is NOT set.
 
         ::
-        
+
         with survey.write_output('ccds', brick=brickname) as out:
             ccds.writeto(None, fits_object=out.fits, primheader=primhdr)
 
@@ -1228,8 +1121,11 @@ class LegacySurveyData(object):
             # end of OutputFileContext class
 
 
-        # Get the output filename for this filetype
-        fn = self.find_file(filetype, output=True, **kwargs)
+        if filename is not None:
+            fn = filename
+        else:
+            # Get the output filename for this filetype
+            fn = self.find_file(filetype, output=True, **kwargs)
 
         compress = self.get_compression_string(filetype, **kwargs)
 
@@ -1683,61 +1579,12 @@ def run_calibs(X):
             raise
 
 def read_one_tim(X):
+    from astrometry.util.ttime import Time
     (im, targetrd, kwargs) = X
-    #print('Reading', im)
+    t0 = Time()
     tim = im.get_tractor_image(radecpoly=targetrd, **kwargs)
+    if tim is not None:
+        th,tw = tim.shape
+        print('Time to read %i x %i image, hdu %i:' % (tw,th, im.hdu), Time()-t0)
     return tim
-
-from tractor.psfex import PsfExModel
-
-class SchlegelPsfModel(PsfExModel):
-    def __init__(self, fn=None, ext=1):
-        '''
-        `ext` is ignored.
-        '''
-        if fn is not None:
-            T = fits_table(fn)
-            T.about()
-
-            ims = fitsio.read(fn, ext=2)
-            print('Eigen-images', ims.shape)
-            nsch,h,w = ims.shape
-
-            hdr = fitsio.read_header(fn)
-            x0 = 0.
-            y0 = 0.
-            xscale = 1. / hdr['XSCALE']
-            yscale = 1. / hdr['YSCALE']
-            degree = (T.xexp + T.yexp).max()
-            self.sampling = 1.
-
-            # Reorder the 'ims' to match the way PsfEx sorts its polynomial terms
-
-            # number of terms in polynomial
-            ne = (degree + 1) * (degree + 2) // 2
-            print('Number of eigen-PSFs required for degree=', degree, 'is', ne)
-
-            self.psfbases = np.zeros((ne, h,w))
-
-            for d in range(degree + 1):
-                # x polynomial degree = j
-                # y polynomial degree = k
-                for j in range(d+1):
-                    k = d - j
-                    ii = j + (degree+1) * k - (k * (k-1))// 2
-
-                    jj = np.flatnonzero((T.xexp == j) * (T.yexp == k))
-                    if len(jj) == 0:
-                        print('Schlegel image for power', j,k, 'not found')
-                        continue
-                    im = ims[jj,:,:]
-                    print('Schlegel image for power', j,k, 'has range', im.min(), im.max(), 'sum', im.sum())
-                    self.psfbases[ii,:,:] = ims[jj,:,:]
-
-            self.xscale, self.yscale = xscale, yscale
-            self.x0,self.y0 = x0,y0
-            self.degree = degree
-            print('SchlegelPsfEx degree:', self.degree)
-            bh,bw = self.psfbases[0].shape
-            self.radius = (bh+1)/2.
 

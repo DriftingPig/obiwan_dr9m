@@ -44,5 +44,5 @@ export OMP_NUM_THREADS=1
 export XDG_CONFIG_HOME=/dev/shm
 srun -n $SLURM_JOB_NUM_NODES mkdir -p $XDG_CONFIG_HOME/astropy
 echo entering srun
-srun -N 4 -n 16 -c $usecores shifter --module=mpich-cle6 --image=driftingpig/obiwan:dr9m ./example1.sh
+srun -N 4 -n 16 -c $usecores shifter --module=mpich-cle6 --image=driftingpig/obiwan:dr9.3 ./example1.sh
 wait
